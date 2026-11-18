@@ -9,5 +9,5 @@ collect().then((data) => {
   fs.writeFileSync(out, JSON.stringify(data));
   const ok = data.status.filter((s) => s.ok).length;
   console.log(`Ditulis ${data.articles.length} artikel (${ok}/${data.status.length} sumber berjaya) ke ${out}`);
-  data.status.filter((s) => !s.ok).forEach((s) => console.warn(`  ✗ ${s.name}: ${s.error}`));
+  data.status.forEach((s) => console.log(s.ok ? `  ✓ ${s.name}: ${s.count} artikel (${s.url})` : `  ✗ ${s.name}: ${s.error}`));
 });
