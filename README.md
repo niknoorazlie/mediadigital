@@ -24,7 +24,7 @@ node server.js
 Buka http://localhost:3000. Tetapan pilihan: `PORT=8080`, `REFRESH_MINUTES=5`.
 
 ## Domain sendiri
-Laman diterbitkan di https://mediadigital.my (fail `public/CNAME`). Tetapkan juga domain yang sama dalam Settings → Pages → Custom domain.
+Laman diterbitkan di https://semasa.my (fail `public/CNAME`). Tetapkan juga domain yang sama dalam Settings → Pages → Custom domain.
 
 ## Hosting percuma di GitHub Pages
 1. Muat naik folder ini ke repositori GitHub.
