@@ -22,6 +22,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SUMMARY_MODEL: ${{ vars.SUMMARY_MODEL }}
           MAX_SUMMARIES_PER_RUN: ${{ vars.MAX_SUMMARIES_PER_RUN }}
+          GA_MEASUREMENT_ID: ${{ vars.GA_MEASUREMENT_ID }}
       - name: Simpan arkib
         run: |
           git config user.name "github-actions[bot]"

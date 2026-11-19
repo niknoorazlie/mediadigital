@@ -5,7 +5,7 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const { collect } = require('./lib/feeds');
 const { summarizeMissing } = require('./lib/summarize');
-const { writePages } = require('./lib/pages');
+const { writePages, analytics } = require('./lib/pages');
 
 const ARCHIVE = path.join(__dirname, 'data', 'archive.json');
 const PUBLIC = path.join(__dirname, 'public');
@@ -62,6 +62,12 @@ function loadArchive() {
   }));
   fs.mkdirSync(path.join(PUBLIC, 'data'), { recursive: true });
   fs.writeFileSync(path.join(PUBLIC, 'data', 'news.json'), JSON.stringify({ ...data, articles: latest }));
+
+  // Masukkan kod Google Analytics ke laman utama dan halaman privasi
+  for (const f of ['index.html', 'privasi/index.html']) {
+    const fp = path.join(PUBLIC, f);
+    fs.writeFileSync(fp, fs.readFileSync(fp, 'utf8').replace('<!--ANALYTICS-->', analytics()));
+  }
 
   const r = writePages(kept, PUBLIC);
   console.log(`Halaman artikel: ${r.pages} (${r.indexed} dengan ringkasan asli, masuk sitemap)`);
