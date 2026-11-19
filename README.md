@@ -26,7 +26,7 @@ Buka http://localhost:3000. Tetapan pilihan: `PORT=8080`, `REFRESH_MINUTES=5`.
 ## Halaman berita sendiri (SEO)
 Setiap berita mendapat halaman sendiri di `https://semasa.my/berita/<slug>/` dengan tajuk, ringkasan dan pautan ke laporan asal. Klik pada laman utama membuka halaman ini, bukan laman penerbit.
 
-- **Ringkasan asli oleh AI (OpenAI):** tambah rahsia `OPENAI_API_KEY` di Settings → Secrets and variables → Actions. Setiap larian menulis sehingga 100 ringkasan baharu dalam Bahasa Melayu berdasarkan tajuk dan petikan RSS. Tetapkan pemboleh ubah (Variables) `SUMMARY_MODEL` untuk tukar model (lalai `gpt-5-nano`) dan `MAX_SUMMARIES_PER_RUN` untuk had larian.
+- **Ringkasan asli oleh AI (OpenAI):** tambah rahsia `OPENAI_API_KEY` di Settings → Secrets and variables → Actions. Setiap larian menulis sehingga 100 artikel baharu (250 hingga 400 patah perkataan) dalam Bahasa Melayu. Teks penuh laporan asal diambil sebagai bahan AI sahaja dan tidak diterbitkan. Tetapkan pemboleh ubah (Variables) `SUMMARY_MODEL` untuk tukar model (lalai `gpt-5-nano`) dan `MAX_SUMMARIES_PER_RUN` untuk had larian.
 - Halaman tanpa ringkasan AI hanya memaparkan petikan pendek penerbit dan ditanda `noindex`, supaya Google tidak melihatnya sebagai kandungan pendua.
 - Arkib 30 hari disimpan dalam `data/archive.json` (di-commit oleh aliran kerja) supaya halaman lama kekal wujud.
 - `sitemap.xml` dan `robots.txt` dijana setiap larian. Hantar `https://semasa.my/sitemap.xml` di Google Search Console.
