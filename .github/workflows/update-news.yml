@@ -1,12 +1,14 @@
-# Kemas kini berita setiap 30 minit dan terbitkan ke GitHub Pages (percuma).
+# Kumpul berita, tulis ringkasan AI, simpan arkib dan terbitkan ke GitHub Pages.
 # Settings → Pages → Source: "GitHub Actions".
+# Ringkasan AI: tambah rahsia ANTHROPIC_API_KEY di Settings → Secrets and variables → Actions.
 name: Kemas kini berita
 on:
-  schedule: [{ cron: "*/30 * * * *" }]
+  schedule: [{ cron: "*/20 * * * *" }]
   workflow_dispatch:
-  push: { branches: [main] }
-permissions: { contents: read, pages: write, id-token: write }
-concurrency: { group: pages, cancel-in-progress: true }
+  repository_dispatch: { types: [kemas-kini] }
+  push: { branches: [main], paths-ignore: ["data/**"] }
+permissions: { contents: write, pages: write, id-token: write }
+concurrency: { group: pages, cancel-in-progress: false }
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,7 +16,18 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
+      - run: npm install --no-audit --no-fund
       - run: node build-static.js
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SUMMARY_MODEL: ${{ vars.SUMMARY_MODEL }}
+          MAX_SUMMARIES_PER_RUN: ${{ vars.MAX_SUMMARIES_PER_RUN }}
+      - name: Simpan arkib
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/archive.json
+          git diff --cached --quiet || (git commit -m "Kemas kini arkib berita" && git pull --rebase -X ours origin main && git push)
       - uses: actions/upload-pages-artifact@v3
         with: { path: public }
   deploy:

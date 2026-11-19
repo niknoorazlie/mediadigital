@@ -139,3 +139,25 @@ img { display: block; max-width: 100%; }
 
 .foot { border-top: 1px solid var(--line); background: var(--surface); padding: 28px 0 36px; margin-top: 20px; }
 .foot p { max-width: 640px; color: var(--ink-2); font-size: 13.5px; }
+
+/* Halaman artikel */
+.art-nav { display: flex; gap: 14px; overflow-x: auto; scrollbar-width: none; font-size: 14px; font-weight: 600; color: var(--ink-2); min-width: 0; }
+.art-nav a:hover { color: var(--accent); }
+.art-wrap { display: grid; gap: 40px; padding-block: 28px 48px; max-width: 760px; }
+.art h1 { font: 700 clamp(26px, 4.5vw, 38px)/1.15 var(--serif); letter-spacing: -.015em; margin: 10px 0 12px; text-wrap: balance; }
+.crumbs { font-size: 13px; color: var(--muted); }
+.crumbs a:hover { color: var(--accent); }
+.art .meta { font-size: 13px; }
+.art-fig { margin: 22px 0 0; }
+.art-fig img { width: 100%; border-radius: 10px; aspect-ratio: 16/9; object-fit: cover; background: var(--surface-2); }
+.art-fig figcaption { font-size: 12px; color: var(--muted); margin-top: 6px; }
+.art-body { font-size: 18px; line-height: 1.7; margin-top: 22px; }
+.art-body p { margin: 0 0 1em; }
+.art-source { margin-top: 26px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); font-size: 14px; color: var(--ink-2); }
+.art-source p { margin: 0 0 12px; }
+.src-link { display: inline-block; font-weight: 600; color: var(--accent-ink); background: var(--accent); padding: 8px 14px; border-radius: 999px; }
+.art-related ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.art-related a { display: grid; gap: 2px; font: 600 16px/1.35 var(--serif); }
+.art-related a:hover { color: var(--accent); }
+@media (max-width: 720px) { .art-nav { display: none; } }
+.art-related .src { font-family: var(--sans); }

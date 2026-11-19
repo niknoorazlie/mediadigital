@@ -44,7 +44,10 @@
     return `<div class="meta"><span class="src">${esc(a.sourceName)}</span>${withCat ? `<span class="cat-tag">${esc(CAT_LABEL[a.category] || a.category)}</span>` : ''}<span>${ago(a.date)}</span><span class="lang">${a.lang === 'ms' ? 'BM' : 'EN'}</span></div>`;
   }
   const saveBtn = (a) => `<button class="save ${state.saved.has(a.link) ? 'on' : ''}" data-save="${esc(a.link)}" aria-label="Simpan berita" title="Simpan untuk dibaca kemudian">${state.saved.has(a.link) ? '★' : '☆'}</button>`;
-  const link = (a, inner, cls = 'card') => `<article class="${cls}">${saveBtn(a)}<a href="${esc(a.link)}" target="_blank" rel="noopener" data-read="${esc(a.link)}">${inner}</a></article>`;
+  // Berita dibuka di halaman sendiri; pautan ke sumber asal ada dalam halaman itu.
+  const href = (a) => a.slug ? `/berita/${encodeURIComponent(a.slug)}/` : a.link;
+  const ext = (a) => a.slug ? '' : ' target="_blank" rel="noopener"';
+  const link = (a, inner, cls = 'card') => `<article class="${cls}">${saveBtn(a)}<a href="${esc(href(a))}"${ext(a)} data-read="${esc(a.link)}">${inner}</a></article>`;
 
   const cardLead = (a) => link(a, `${thumb(a)}${meta(a)}<h3>${esc(a.title)}</h3>${a.summary ? `<p>${esc(a.summary)}</p>` : ''}`, 'card lead');
   const cardSmall = (a) => link(a, `${thumb(a)}<div>${meta(a, false)}<h3>${esc(a.title)}</h3></div>`);
@@ -75,7 +78,7 @@
       .map((s) => `<button class="chip ${state.sources.has(s.id) ? 'on' : ''}" data-src="${s.id}">${esc(s.name)}</button>`).join('');
   }
   function renderTicker() {
-    const items = state.data.articles.slice(0, 14).map((a) => `<a href="${esc(a.link)}" target="_blank" rel="noopener" data-read="${esc(a.link)}"><b>${esc(a.sourceName)}</b>${esc(a.title)}</a>`).join('');
+    const items = state.data.articles.slice(0, 14).map((a) => `<a href="${esc(href(a))}"${ext(a)} data-read="${esc(a.link)}"><b>${esc(a.sourceName)}</b>${esc(a.title)}</a>`).join('');
     $('#ticker').innerHTML = items + items;
   }
 
@@ -128,7 +131,7 @@
     const byLink = new Map(state.data.articles.map((a) => [a.link, a]));
     const read = Object.entries(state.reads).filter(([l]) => byLink.has(l)).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([l]) => byLink.get(l));
     const list = read.length >= 3 ? read : state.data.articles.slice(0, 5);
-    $('#mostRead').innerHTML = list.map((a) => `<li><div><a href="${esc(a.link)}" target="_blank" rel="noopener" data-read="${esc(a.link)}">${esc(a.title)}</a><div class="meta"><span class="src">${esc(a.sourceName)}</span><span>${ago(a.date)}</span></div></div></li>`).join('');
+    $('#mostRead').innerHTML = list.map((a) => `<li><div><a href="${esc(href(a))}"${ext(a)} data-read="${esc(a.link)}">${esc(a.title)}</a><div class="meta"><span class="src">${esc(a.sourceName)}</span><span>${ago(a.date)}</span></div></div></li>`).join('');
     $('#mostRead').previousElementSibling.textContent = read.length >= 3 ? 'Paling dibaca anda' : 'Pilihan terkini';
 
     const status = Object.fromEntries((state.data.status || []).map((s) => [s.id, s]));
@@ -182,7 +185,7 @@
       data.articles.forEach((a) => { if (a.date) a.date = new Date(Date.parse(a.date) + shift).toISOString(); });
       data.generatedAt = new Date().toISOString();
     }
-    if (demo) $('#notice').innerHTML = '<div class="notice"><b>Mod pratonton:</b> tajuk di bawah ialah data contoh, bukan berita sebenar. Jalankan <code>node server.js</code> untuk berita langsung daripada sumber.</div>';
+    if (demo) $('#notice').innerHTML = '<div class="notice"><b>Mod pratonton:</b> tajuk di bawah ialah data contoh, bukan berita sebenar. </div>';
     const h = location.hash.slice(1); if (CAT_LABEL[h]) state.cat = h;
     renderTicker(); render(); renderSide();
   }

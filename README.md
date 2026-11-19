@@ -1,4 +1,4 @@
-# Warta Sahih
+# Semasa.my
 
 Laman web berita interaktif yang mengumpul tajuk daripada suapan RSS rasmi penerbit tempatan dan antarabangsa. Setiap berita dipaut terus ke laman sumber asal.
 
@@ -22,6 +22,14 @@ Alamat RSS penerbit kadang-kadang berubah. Selepas larian pertama, lihat log ata
 node server.js
 ```
 Buka http://localhost:3000. Tetapan pilihan: `PORT=8080`, `REFRESH_MINUTES=5`.
+
+## Halaman berita sendiri (SEO)
+Setiap berita mendapat halaman sendiri di `https://semasa.my/berita/<slug>/` dengan tajuk, ringkasan dan pautan ke laporan asal. Klik pada laman utama membuka halaman ini, bukan laman penerbit.
+
+- **Ringkasan asli oleh AI (Claude):** tambah rahsia `ANTHROPIC_API_KEY` di Settings → Secrets and variables → Actions. Setiap larian menulis sehingga 40 ringkasan baharu dalam Bahasa Melayu berdasarkan tajuk dan petikan RSS. Tetapkan pemboleh ubah (Variables) `SUMMARY_MODEL` untuk tukar model (lalai `claude-opus-5-5`; `claude-haiku-5-5` jauh lebih murah) dan `MAX_SUMMARIES_PER_RUN` untuk had larian.
+- Halaman tanpa ringkasan AI hanya memaparkan petikan pendek penerbit dan ditanda `noindex`, supaya Google tidak melihatnya sebagai kandungan pendua.
+- Arkib 30 hari disimpan dalam `data/archive.json` (di-commit oleh aliran kerja) supaya halaman lama kekal wujud.
+- `sitemap.xml` dan `robots.txt` dijana setiap larian. Hantar `https://semasa.my/sitemap.xml` di Google Search Console.
 
 ## Domain sendiri
 Laman diterbitkan di https://semasa.my (fail `public/CNAME`). Tetapkan juga domain yang sama dalam Settings → Pages → Custom domain.
