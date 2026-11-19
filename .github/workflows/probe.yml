@@ -1,0 +1,10 @@
+name: probe
+on: { push: { branches: [probe] } }
+jobs:
+  p:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: node scripts/probe.js https://www.bharian.com.my/berita/nasional/2026/11/1720885/perintah-tahanan-rumah-najib-boleh-dinyahklasifikasi-jika-dicabar-di https://www.hmetro.com.my/mutakhir/2026/11/1438423/kediaman-najib-kekal-kategori-zon-perumahan https://www.nst.com.my/news/nation/2026/11/1581452/mp-wants-local-councils-let-ngos-handle-stray-dogs
