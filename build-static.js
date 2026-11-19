@@ -11,7 +11,7 @@ const ARCHIVE = path.join(__dirname, 'data', 'archive.json');
 const PUBLIC = path.join(__dirname, 'public');
 const KEEP_DAYS = Number(process.env.KEEP_DAYS) || 30;
 const MAX_ARCHIVE = 3000;
-const MAX_SUMMARIES = Number(process.env.MAX_SUMMARIES_PER_RUN) || 40;
+const MAX_SUMMARIES = Number(process.env.MAX_SUMMARIES_PER_RUN) || 100;
 
 function slugify(title, link) {
   const base = title.normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase()

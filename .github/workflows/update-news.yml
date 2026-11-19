@@ -1,6 +1,6 @@
 # Kumpul berita, tulis ringkasan AI, simpan arkib dan terbitkan ke GitHub Pages.
 # Settings → Pages → Source: "GitHub Actions".
-# Ringkasan AI: tambah rahsia ANTHROPIC_API_KEY di Settings → Secrets and variables → Actions.
+# Ringkasan AI: tambah rahsia OPENAI_API_KEY di Settings → Secrets and variables → Actions.
 name: Kemas kini berita
 on:
   schedule: [{ cron: "*/20 * * * *" }]
@@ -19,7 +19,7 @@ jobs:
       - run: npm install --no-audit --no-fund
       - run: node build-static.js
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SUMMARY_MODEL: ${{ vars.SUMMARY_MODEL }}
           MAX_SUMMARIES_PER_RUN: ${{ vars.MAX_SUMMARIES_PER_RUN }}
       - name: Simpan arkib
