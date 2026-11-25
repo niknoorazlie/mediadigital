@@ -22,12 +22,13 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SUMMARY_MODEL: ${{ vars.SUMMARY_MODEL }}
           MAX_SUMMARIES_PER_RUN: ${{ vars.MAX_SUMMARIES_PER_RUN }}
+          DAILY_BUDGET_USD: ${{ vars.DAILY_BUDGET_USD }}
           GA_MEASUREMENT_ID: ${{ vars.GA_MEASUREMENT_ID }}
       - name: Simpan arkib
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/archive.json
+          git add data/archive.json data/usage.json
           git diff --cached --quiet || (git commit -m "Kemas kini arkib berita" && git pull --rebase --autostash -X ours origin main && git push)
       - uses: actions/upload-pages-artifact@v5
         with: { path: public }

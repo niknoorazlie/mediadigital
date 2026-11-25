@@ -49,10 +49,14 @@ function loadArchive() {
   let kept = archive.filter((a) => t(a) > cutoff).sort((x, y) => t(y) - t(x)).slice(0, MAX_ARCHIVE);
   console.log(`Arkib: ${added} baharu, ${kept.length} disimpan`);
 
-  await summarizeMissing(kept, MAX_SUMMARIES);
+  const USAGE = path.join(path.dirname(ARCHIVE), 'usage.json');
+  let usage = {};
+  try { usage = JSON.parse(fs.readFileSync(USAGE, 'utf8')); } catch {}
+  await summarizeMissing(kept, MAX_SUMMARIES, usage);
 
   fs.mkdirSync(path.dirname(ARCHIVE), { recursive: true });
   fs.writeFileSync(ARCHIVE, JSON.stringify(kept, null, 0));
+  fs.writeFileSync(USAGE, JSON.stringify(usage, null, 1));
 
   // Data untuk laman utama
   const latest = kept.slice(0, 400).map((a) => ({
